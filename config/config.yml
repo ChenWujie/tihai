@@ -1,0 +1,16 @@
+app:
+  name: TiHai
+  port: :8089
+
+database:
+  dsn: root:1234@tcp(127.0.0.1:3306)/tihai?charset=utf8mb4&parseTime=True&loc=Local
+  MaxIdleConns: 11
+  MaxOpenCons: 114
+
+redis:
+  addr: 127.0.0.1:6379
+  DB: 0
+  Password: ""
+
+elasticsearch:
+  addr: 172.24.86.90:9200
