@@ -195,7 +195,7 @@ func SearchArticles(query string) (map[string]interface{}, error) {
 				},
 				{
 					"term": {
-						"type.keyword": {
+						"type": {
 							"value": "%s"
 						}
 					}
