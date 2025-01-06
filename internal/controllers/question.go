@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"tihai/internal/model"
 	"tihai/internal/service"
 )
@@ -15,11 +16,11 @@ func CreateQuestion(c *gin.Context) {
 	}
 	uid, _ := c.Get("uid")
 	question.TeacherID = uid.(uint)
-	if err := service.CreateQuestion(question); err != nil {
+	if err := service.CreateQuestion(&question); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": "success"})
+	c.JSON(http.StatusOK, gin.H{"data": "success id:" + strconv.Itoa(int(question.ID))})
 }
 
 func UpdateQuestion(c *gin.Context) {
