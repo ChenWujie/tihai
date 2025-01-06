@@ -22,11 +22,11 @@ func CreateStudentAnswer(c *gin.Context) {
 	}
 	answer.UserId = userID.(uint)
 	answer.SubmitTime = time.Now()
-	if score, err := service.CreateStudentAnswer(answer); err != nil {
+	if score, rate, err := service.CreateStudentAnswer(answer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	} else {
-		c.JSON(http.StatusOK, gin.H{"data": score})
+		c.JSON(http.StatusOK, gin.H{"result": score, "rate": rate})
 	}
 }
 
@@ -47,7 +47,12 @@ func GetStudentAnswerListForQuestion(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	list, err := service.GetUserAnswerList(uint(qid))
+	uid, exists := c.Get("uid")
+	if !exists {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "请先登录"})
+		return
+	}
+	list, err := service.GetUserAnswerList(uid.(uint), uint(qid))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
