@@ -181,7 +181,7 @@ func addQuestionToIndex(question model.Question) error {
 	return nil
 }
 
-// 搜索文章
+// SearchArticles 搜索文章
 func SearchArticles(query string) (map[string]interface{}, error) {
 	searchQuery := fmt.Sprintf(`{
 		"query": {
@@ -220,7 +220,6 @@ func SearchArticles(query string) (map[string]interface{}, error) {
 		return nil, fmt.Errorf("error searching documents: %s", res.Status())
 	}
 
-	fmt.Println("Search Results:", res)
 	var r map[string]interface{}
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
 		return nil, fmt.Errorf("error parsing the response body: %s", err)
@@ -261,7 +260,7 @@ func updateQuestionByID(question model.Question) error {
 		}
 	}
 
-	nonEmptyFieldsJSON, err := json.Marshal(nonEmptyFields)
+	nonEmptyFieldsJSON, err := json.Marshal(map[string]interface{}{"doc": nonEmptyFields})
 	if err != nil {
 		return fmt.Errorf("error marshaling non-empty fields to JSON: %s", err)
 	}
