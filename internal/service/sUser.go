@@ -17,9 +17,6 @@ func Register(user *model.User) error {
 		return err
 	}
 	user.Password = hashedPwd
-	if err := global.Db.AutoMigrate(user); err != nil {
-		return err
-	}
 	if err := global.Db.Create(user).Error; err != nil {
 		return err
 	}

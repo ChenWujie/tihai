@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"tihai/global"
+	"tihai/internal/model"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -26,6 +27,9 @@ func initDB() {
 	if err != nil {
 		log.Fatalf("Failed to configure database, got error: %v", err)
 	}
-
+	err = db.AutoMigrate(&model.User{}, &model.Question{}, &model.Paper{}, &model.Score{}, &model.StudentAnswer{}, &model.Comment{})
+	if err != nil {
+		log.Fatalf("Failed to migrate database, got error: %v", err)
+	}
 	global.Db = db
 }

@@ -13,4 +13,5 @@ type Question struct {
 	Answer      string          `gorm:"type:text" json:"answer"`
 	Teacher     User            `gorm:"foreignKey:TeacherID" json:"teacher"`
 	UserAnswers []StudentAnswer `gorm:"foreignKey:QuestionID" json:"user_answers"`
+	Papers      []Paper         `gorm:"many2many:paper_questions;"`
 }

@@ -9,5 +9,5 @@ type StudentAnswer struct {
 	AnswerText     string    `json:"answer_text"`
 	AnswerImageUrl string    `json:"url"`
 	SubmitTime     time.Time `gorm:"not null" json:"submit_time"`
-	User           User      `json:"student"`
+	User           User      `gorm:"foreignkey:UserId" json:"student"`
 }

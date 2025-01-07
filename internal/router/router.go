@@ -35,5 +35,10 @@ func SetupRouter() *gin.Engine {
 		v3.POST("/create", controllers.CreateStudentAnswer)
 		v3.GET("/get", controllers.GetStudentAnswerListForQuestion)
 	}
+	v4 := r.Group("/paper")
+	v4.Use(middleware.AuthMiddleWare())
+	{
+		v4.POST("/create", controllers.CreatePaper)
+	}
 	return r
 }

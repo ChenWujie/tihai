@@ -16,9 +16,6 @@ import (
 )
 
 func CreateQuestion(question *model.Question) error {
-	if err := global.Db.AutoMigrate(&question); err != nil {
-		return err
-	}
 	res := global.Db.Create(&question)
 	if res.Error != nil {
 		return res.Error

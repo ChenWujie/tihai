@@ -8,9 +8,6 @@ import (
 )
 
 func CreateStudentAnswer(answer model.StudentAnswer) (right bool, rate float64, err error) {
-	if err := global.Db.AutoMigrate(&answer); err != nil {
-		return false, 0, err
-	}
 	// 回答
 	if err := global.Db.Create(&answer).Error; err != nil {
 		return false, 0, err
