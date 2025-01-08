@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"reflect"
 	"tihai/global"
 	"tihai/internal/model"
@@ -88,4 +89,36 @@ func GetPaper(uid uint) ([]model.Paper, error) {
 		return paper, err
 	}
 	return paper, nil
+}
+
+func AssignPapers(uid, paperId uint, classIds []uint) error {
+	tx := global.Db.Begin()
+	var paper model.Paper
+	if err := tx.First(&paper, paperId).Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	if paper.UserID != uid {
+		tx.Rollback()
+		return errors.New("仅试卷创建者可分配试卷！")
+	}
+	classes := make([]model.Class, 0)
+	for _, classId := range classIds {
+		var class model.Class
+		if err := tx.First(&class, classId).Error; err != nil {
+			tx.Rollback()
+			return err
+		}
+		classes = append(classes, class)
+	}
+	err := tx.Model(&paper).Association("Classes").Append(&classes)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
 }

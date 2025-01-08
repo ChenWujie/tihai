@@ -69,3 +69,22 @@ func GetPapers(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"paper": paper})
 }
+
+func AssignPapers(c *gin.Context) {
+	type temp struct {
+		ClassIds []uint `json:"class_ids"`
+		PaperId  uint   `json:"paper_id"`
+	}
+	uid, _ := c.Get("uid")
+	var t temp
+	if err := c.ShouldBindJSON(&t); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	err := service.AssignPapers(uid.(uint), t.PaperId, t.ClassIds)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": "ok"})
+}

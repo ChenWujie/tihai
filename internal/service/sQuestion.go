@@ -16,13 +16,13 @@ import (
 	"time"
 )
 
-func CreateQuestion(question *model.Question) error {
+func CreateQuestion(question model.Question) error {
 	res := global.Db.Create(&question)
 	if res.Error != nil {
 		return res.Error
 	}
 	// TODO 解耦
-	err := addQuestionToIndex(*question)
+	err := addQuestionToIndex(question)
 	if err != nil {
 		return err
 	}

@@ -51,3 +51,19 @@ func DeleteClass(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": "success"})
 }
+
+func QueryClass(c *gin.Context) {
+	var user model.User
+	if err := c.ShouldBind(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	uid, _ := c.Get("uid")
+	user.ID = uid.(uint)
+	classes, err := service.QueryClass(user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"classes": classes})
+}
