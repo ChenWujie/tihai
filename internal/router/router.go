@@ -38,7 +38,17 @@ func SetupRouter() *gin.Engine {
 	v4 := r.Group("/paper")
 	v4.Use(middleware.AuthMiddleWare())
 	{
+		v4.GET("/get", controllers.GetPapers)
 		v4.POST("/create", controllers.CreatePaper)
+		v4.DELETE("/delete", controllers.DeletePaper)
+		v4.POST("/update", controllers.UpdatePaper)
+	}
+	v5 := r.Group("/class")
+	v5.Use(middleware.AuthMiddleWare())
+	{
+		v5.POST("/create", controllers.CreateClass)
+		v5.DELETE("/delete", controllers.DeleteClass)
+		v5.POST("/join", controllers.JoinClass)
 	}
 	return r
 }

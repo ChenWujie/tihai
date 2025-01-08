@@ -13,6 +13,7 @@ import (
 	"tihai/global"
 	"tihai/internal/model"
 	"tihai/utils"
+	"time"
 )
 
 func CreateQuestion(question *model.Question) error {
@@ -294,6 +295,8 @@ func isNotEmpty(value interface{}) bool {
 	case *int:
 		return v != nil && *v != 0
 	// 可以根据实际结构体中的其他类型继续添加判断逻辑，比如切片、结构体指针等类型
+	case time.Time:
+		return !v.IsZero()
 	default:
 		return false
 	}

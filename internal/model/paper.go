@@ -13,4 +13,5 @@ type Paper struct {
 	UserID    uint       `gorm:"column:user_id;type:int(11);not null"`
 	User      User       `gorm:"foreignKey:UserID" json:"user"`
 	Questions []Question `gorm:"many2many:paper_questions;"`
+	Classes   []Class    `gorm:"many2many:class_papers;"`
 }

@@ -27,7 +27,8 @@ func initDB() {
 	if err != nil {
 		log.Fatalf("Failed to configure database, got error: %v", err)
 	}
-	err = db.AutoMigrate(&model.User{}, &model.Question{}, &model.Paper{}, &model.Score{}, &model.StudentAnswer{}, &model.Comment{})
+	err = db.AutoMigrate(&model.User{}, &model.Question{}, &model.Paper{}, &model.Score{},
+		&model.StudentAnswer{}, &model.Comment{}, &model.Class{})
 	if err != nil {
 		log.Fatalf("Failed to migrate database, got error: %v", err)
 	}
