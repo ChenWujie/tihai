@@ -69,3 +69,9 @@ func Update(input model.User, token string) error {
 	}
 	return nil
 }
+
+func GetInformation(uid uint) model.User {
+	var user model.User
+	global.Db.Select("id,username,role").First(&user, uid)
+	return user
+}

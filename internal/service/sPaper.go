@@ -2,9 +2,11 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"reflect"
 	"tihai/global"
 	"tihai/internal/model"
+	"time"
 )
 
 func CreatePaper(paper *model.Paper, questionIds []uint) error {
@@ -134,11 +136,32 @@ func QueryClassPapers(uid uint) ([]model.Paper, error) {
 	var papers []model.Paper
 	for _, v := range classes {
 		classPapers := make([]model.Paper, 0)
-		err := global.Db.Model(&v).Association("Papers").Find(&classPapers)
+		err := global.Db.Model(&v).Preload("Questions", func(db *gorm.DB) *gorm.DB {
+			return db.Select("id,title,content,image_url,type")
+		}).Preload("Classes").Association("Papers").Find(&classPapers)
 		if err != nil {
 			return nil, err
 		}
 		papers = append(papers, classPapers...)
 	}
+	for i, _ := range papers {
+		for j, _ := range papers[i].Questions {
+			global.Db.Model(papers[i].Questions[j]).Preload("UserAnswers").Find(&papers[i].Questions[j])
+		}
+	}
 	return papers, nil
+}
+
+func PaperAnswer(uid uint, answers []model.StudentAnswer) []model.StudentAnswer {
+	tx := global.Db.Begin()
+	for i, _ := range answers {
+		answers[i].UserID = uid
+		answers[i].SubmitTime = time.Now()
+		tx.Create(&answers[i])
+	}
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return nil
+	}
+	return answers
 }

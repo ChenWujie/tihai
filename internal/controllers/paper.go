@@ -100,6 +100,13 @@ func GetClassPapers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"papers": papers})
 }
 
-func AnswerPaper(c *gin.Context) {
-
+func PaperAnswer(c *gin.Context) {
+	var answers []model.StudentAnswer
+	uid, _ := c.Get("uid")
+	if err := c.ShouldBindJSON(&answers); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	service.PaperAnswer(uid.(uint), answers)
+	c.JSON(http.StatusOK, gin.H{"data": "answers"})
 }

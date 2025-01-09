@@ -1,13 +1,16 @@
 package model
 
-import "time"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type StudentAnswer struct {
-	Id             int       `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
-	UserId         uint      `gorm:"not null" json:"user_id"`
+	gorm.Model
+	UserID         uint      `gorm:"not null" json:"user_id"`
 	QuestionID     uint      `gorm:"not null" json:"question_id"`
 	AnswerText     string    `json:"answer_text"`
 	AnswerImageUrl string    `json:"url"`
 	SubmitTime     time.Time `gorm:"not null" json:"submit_time"`
-	User           User      `gorm:"foreignkey:UserId" json:"student"`
+	User           User      `gorm:"foreignkey:UserID" json:"student"`
 }

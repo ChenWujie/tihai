@@ -64,3 +64,8 @@ func Update(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": "更新成功！"})
 }
+
+func GetInformation(c *gin.Context) {
+	uid, _ := c.Get("uid")
+	c.JSON(http.StatusOK, gin.H{"data": service.GetInformation(uid.(uint))})
+}

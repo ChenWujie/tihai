@@ -12,7 +12,7 @@ func CreateStudentAnswer(answer model.StudentAnswer) (right bool, rate float64, 
 	if err := global.Db.Create(&answer).Error; err != nil {
 		return false, 0, err
 	}
-	subkey := strconv.Itoa(int(answer.UserId)) + ":" + strconv.Itoa(int(answer.QuestionID))
+	subkey := strconv.Itoa(int(answer.UserID)) + ":" + strconv.Itoa(int(answer.QuestionID))
 	if count, err := global.RedisDB.Exists(subkey).Result(); err != nil {
 		return false, 0, err
 	} else {

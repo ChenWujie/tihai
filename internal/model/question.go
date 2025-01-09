@@ -12,6 +12,6 @@ type Question struct {
 	Type        string          `gorm:"type:enum('chose', 'multi_chose', 'judge', 'saq'); not null; default:'saq'" json:"type"`
 	Answer      string          `gorm:"type:text" json:"answer"`
 	Teacher     User            `gorm:"foreignKey:TeacherID" json:"teacher"`
-	UserAnswers []StudentAnswer `gorm:"foreignKey:QuestionID" json:"user_answers"`
+	UserAnswers []StudentAnswer `gorm:"foreignKey:QuestionID"`
 	Papers      []Paper         `gorm:"many2many:paper_questions;"`
 }

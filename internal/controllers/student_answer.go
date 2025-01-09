@@ -20,7 +20,7 @@ func CreateStudentAnswer(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "user_id not found"})
 		return
 	}
-	answer.UserId = userID.(uint)
+	answer.UserID = userID.(uint)
 	answer.SubmitTime = time.Now()
 	if score, rate, err := service.CreateStudentAnswer(answer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

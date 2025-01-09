@@ -16,6 +16,7 @@ func SetupRouter() *gin.Engine {
 	{
 		v1.POST("/update", controllers.Update)
 		v1.POST("/unlogin", controllers.UnLogin)
+		v1.GET("/info", controllers.GetInformation)
 	}
 	v2 := r.Group("/question")
 	v2.GET("/get", controllers.GetQuestion)
@@ -44,6 +45,7 @@ func SetupRouter() *gin.Engine {
 		v4.POST("/update", controllers.UpdatePaper)
 		v4.GET("/class", controllers.GetClassPapers)
 		v4.POST("/assign", controllers.AssignPapers)
+		v4.POST("/answer", controllers.PaperAnswer)
 	}
 	v5 := r.Group("/class")
 	v5.Use(middleware.AuthMiddleWare())
