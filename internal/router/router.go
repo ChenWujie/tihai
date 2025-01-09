@@ -42,7 +42,7 @@ func SetupRouter() *gin.Engine {
 		v4.POST("/create", controllers.CreatePaper)
 		v4.DELETE("/delete", controllers.DeletePaper)
 		v4.POST("/update", controllers.UpdatePaper)
-
+		v4.GET("/class", controllers.GetClassPapers)
 		v4.POST("/assign", controllers.AssignPapers)
 	}
 	v5 := r.Group("/class")

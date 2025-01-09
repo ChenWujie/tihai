@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"gorm.io/gorm"
 	"tihai/global"
 	"tihai/internal/model"
 )
@@ -74,7 +75,11 @@ func QueryClass(user model.User) ([]model.Class, error) {
 		return nil, err
 	}
 	var createdClass []model.Class
-	if err := global.Db.Model(&model.Class{}).Where("admin_id", user.ID).Find(&createdClass).Error; err != nil {
+	if err := global.Db.Model(&model.Class{}).Preload("Users", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, username")
+	}).Preload("Admin", func(db *gorm.DB) *gorm.DB {
+		return db.Select("id, username")
+	}).Where("admin_id", user.ID).Find(&createdClass).Error; err != nil {
 		return nil, err
 	}
 	for _, v := range createdClass {

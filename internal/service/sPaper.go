@@ -122,3 +122,23 @@ func AssignPapers(uid, paperId uint, classIds []uint) error {
 	}
 	return nil
 }
+
+func QueryClassPapers(uid uint) ([]model.Paper, error) {
+	var user model.User
+	user.ID = uid
+	var classes []model.Class
+	err := global.Db.Model(&user).Association("Classes").Find(&classes)
+	if err != nil {
+		return nil, err
+	}
+	var papers []model.Paper
+	for _, v := range classes {
+		classPapers := make([]model.Paper, 0)
+		err := global.Db.Model(&v).Association("Papers").Find(&classPapers)
+		if err != nil {
+			return nil, err
+		}
+		papers = append(papers, classPapers...)
+	}
+	return papers, nil
+}

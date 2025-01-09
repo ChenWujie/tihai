@@ -88,3 +88,18 @@ func AssignPapers(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"data": "ok"})
 }
+
+// GetClassPapers 查询当前用户所加入的班级拥有的试卷
+func GetClassPapers(c *gin.Context) {
+	uid, _ := c.Get("uid")
+	papers, err := service.QueryClassPapers(uid.(uint))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"papers": papers})
+}
+
+func AnswerPaper(c *gin.Context) {
+
+}
