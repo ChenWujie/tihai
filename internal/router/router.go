@@ -8,7 +8,6 @@ import (
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
-
 	v1 := r.Group("/user")
 	v1.POST("/login", controllers.Login)
 	v1.POST("/register", controllers.Register)
@@ -17,6 +16,7 @@ func SetupRouter() *gin.Engine {
 		v1.POST("/update", controllers.Update)
 		v1.POST("/unlogin", controllers.UnLogin)
 		v1.GET("/info", controllers.GetInformation)
+		v1.GET("/ws", controllers.WsHandler)
 	}
 	v2 := r.Group("/question")
 	v2.GET("/get", controllers.GetQuestion)

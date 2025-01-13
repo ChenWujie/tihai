@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"errors"
 	"gorm.io/gorm"
 	"reflect"
@@ -122,6 +123,13 @@ func AssignPapers(uid, paperId uint, classIds []uint) error {
 		tx.Rollback()
 		return err
 	}
+
+	bytePaper, _ := json.Marshal(paper)
+	err = PublishMessage(bytePaper)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

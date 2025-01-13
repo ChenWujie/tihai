@@ -23,6 +23,13 @@ type Config struct {
 	ElasticSearch struct {
 		Addr string
 	}
+	Rabbit struct {
+		Username    string
+		Password    string
+		Host        string
+		Port        uint
+		VirtualHost string
+	}
 }
 
 var AppConfig *Config
@@ -45,4 +52,6 @@ func InitConfig() {
 	initDB()
 	initRedis()
 	initElasticSearch()
+	initRabbitMQ()
+	initClient()
 }

@@ -9,6 +9,7 @@ import (
 	"os/signal"
 	"tihai/config"
 	"tihai/internal/router"
+	"tihai/internal/service"
 	"time"
 )
 
@@ -33,6 +34,7 @@ func main() {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
+	service.ConsumeMessage()
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)

@@ -14,3 +14,10 @@ redis:
 
 elasticsearch:
   addr: 172.24.86.90:9200
+
+rabbit:
+  host: 127.0.0.1
+  port: 5672
+  username: guest
+  password: guest
+
